@@ -31,16 +31,27 @@ export function getObjectName(object: Object):string {
     return 'Object';
   }
   if (typeof object === 'object' && !object.constructor) {
-      return 'Object';
+    return 'Object';
   }
 
-  const funcNameRegex = /function ([^(]*)/;
-  const results = (funcNameRegex).exec((object).constructor.toString());
-  if (results && results.length > 1) {
-    return results[1];
-  } else {
-    return '';
+  if (object.constructor.toString().startsWith("function")) {
+
+    const funcNameRegex = /function ([^(]*)/;
+    const results = (funcNameRegex).exec((object).constructor.toString());
+    if (results && results.length > 1) {
+      return results[1];
+    } else {
+      return '';
+    }
+
   }
+
+  if (object.constructor.toString().startsWith("class")) {
+
+    return "class: " + object.constructor.name
+  }
+
+  return "----"
 }
 
 /*
